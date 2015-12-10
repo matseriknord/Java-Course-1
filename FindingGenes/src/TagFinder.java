@@ -74,6 +74,10 @@ public String stopCodon(String dna) {
 }
 public static void main (String[] args) {
     TagFinder tf = new TagFinder();
-    tf.testing();
+    String gene = tf.findProtein("AAATGCCCTAACTAGATTGAAACC");
+    String stop = tf.stopCodon(gene);
+    System.out.println("Stop Codeon: " + stop);
+    System.out.println("Got: " + gene);
+    //tf.testing();
 }
 }
