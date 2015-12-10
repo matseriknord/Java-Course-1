@@ -110,7 +110,7 @@ public class FindAllGenes {
         
         for ( int i = 0, n = dna.length(); i < n; i++ ) {
             char c = dna.charAt(i);
-            if ( c == 'c' || c == 'g' ) {
+            if ( c == 'c' || c == 'C' || c == 'g' || c == 'G' ) {
                 numCG += 1;
             }
             
@@ -128,6 +128,7 @@ public class FindAllGenes {
         
         System.out.println("Genes with length > 60 or C-G-ratio > 0.35 found:");
         for ( String dna : sr.data() ) {
+            dna = dna.toLowerCase();
             if ( (dna.length() > 60) ) {
                 System.out.println(dna);
                 numStrings += 1;
@@ -136,7 +137,13 @@ public class FindAllGenes {
                 System.out.println(dna);
                 numcgRatio += 1;
             }
-            if (dna.contains("ctg")) {
+            int start = 0;
+            while (true) {
+                int index = dna.indexOf("ctg", start);
+                if ( index == -1 ) {
+                    break;
+                }
+                start = start + index;
                 numCTG += 1;
             }
             if ( dna.length() > numLongest ) {
@@ -158,7 +165,7 @@ public class FindAllGenes {
         printAll( g3 );
     }
     public void testStorageFinder() {
-        FileResource file = new FileResource("brca1line.fa");
+        FileResource file = new FileResource("GRch38dnapart.fa");
         StorageResource sr = new StorageResource();
         String g1 = "ATGAAATGAAAA";
         String g2 = "ccatgccctaataaatgtctgtaatgtaga";
