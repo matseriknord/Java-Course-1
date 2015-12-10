@@ -15,7 +15,7 @@ import java.io.*;
  */
 public class FindingWebLinks {
     public StorageResource findURLs(String url) {
-        URLResource ur = new edu.duke.URLResource("http://www.dukelearntoprogram.com/course2/data/manylinks.html");
+        URLResource ur = new edu.duke.URLResource(url);
         //Url to search for is set to lower case to get correct matches
         String UrlLow = url.toLowerCase();
         String source = ur.asString();
@@ -40,7 +40,7 @@ public class FindingWebLinks {
             String link = source.substring(Quote1, Quote2);
             //If we have a valid http-tag and the link contains the search url
             //then store the link in original case
-            if ( link.contains(UrlLow) && link.startsWith("http") ) {
+            if ( link.startsWith("http") ) {
                 //Use the original strings to preserve the links
                 store.add(sourceOrig.substring(Quote1, Quote2));
             }
@@ -64,7 +64,8 @@ public class FindingWebLinks {
     }
     public static void main(String[] args) {
         FindingWebLinks wl = new FindingWebLinks();
-        StorageResource store = wl.findURLs("www.youtube.com");
+        String url = "http://www.cs.duke.edu/~rodger/manylinks.html";
+        StorageResource store = wl.findURLs(url);
         for ( String link : store.data() ) {
             System.out.println(link);
         }
