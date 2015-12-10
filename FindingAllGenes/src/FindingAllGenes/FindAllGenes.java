@@ -69,7 +69,7 @@ public class FindAllGenes {
             if (end < dna.length() ) {
                 //System.out.println(dna_orig.substring(tag, end+3));
                 store.add( dna_orig.substring(tag, end+3) );
-                //if a valid gene is found jump one idex forward and start checking next start codon
+                //if a valid gene is found jump three index forward and start checking next start codon
                 start = end + 3;
             }
             else {
@@ -106,28 +106,26 @@ public class FindAllGenes {
         return min;
     }
     public double cgRatio(String dna) {
-        int numC = 0;
-        int numG = 0;
+        int numCG = 0;
         
         for ( int i = 0, n = dna.length(); i < n; i++ ) {
             char c = dna.charAt(i);
-            if ( c == 'c' ) {
-                numC += 1;
+            if ( c == 'c' || c == 'g' ) {
+                numCG += 1;
             }
-            if ( c == 'g' ){
-                numG += 1;
-            }
+            
         }
-        float fnumC = numC;
-        float fnumG = numG;
-        double ratio = (fnumC + fnumG) / dna.length();
-        return ratio;
+        //float fnumCG = numCG;
+        return ( (float) numCG) / dna.length();
     }
     
     public void printGenes( StorageResource sr) {
         
         int numStrings = 0;
         int numcgRatio = 0;
+        int numCTG = 0;
+        int numLongest = 0;
+        
         System.out.println("Genes with length > 60 or C-G-ratio > 0.35 found:");
         for ( String dna : sr.data() ) {
             if ( (dna.length() > 60) ) {
@@ -138,9 +136,18 @@ public class FindAllGenes {
                 System.out.println(dna);
                 numcgRatio += 1;
             }
+            if (dna.contains("ctg")) {
+                numCTG += 1;
+            }
+            if ( dna.length() > numLongest ) {
+                numLongest = dna.length();
+            }
         }
+        System.out.println("Number of Genes in total: " + sr.size() );
         System.out.println("Number of Genes with length > 60: " + numStrings );
         System.out.println("Number of Genes with C-G-ratio > 0.35: " + numcgRatio);
+        System.out.println("Number of times the CTG codon appears: " + numCTG);
+        System.out.println("Longest Gene has a length of: " + numLongest);
     }
     public void testAllStrings() {
         String g1 = "ATGAAATGAAAA";
