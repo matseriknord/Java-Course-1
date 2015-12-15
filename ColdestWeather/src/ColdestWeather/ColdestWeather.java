@@ -61,7 +61,8 @@ public class ColdestWeather {
     }
     public void testFileWithColdestTemperature() {
         String ColdestTempFile = fileWithColdestTemperature();
-        System.out.println("Coldest day was in the file " + ColdestTempFile);
+        //Path needs to absolute but only the filename is printed.
+        System.out.println("Coldest day was in the file " + ColdestTempFile.substring(ColdestTempFile.lastIndexOf('/')+1));
         FileResource fr = new FileResource(ColdestTempFile);
         CSVParser parser = fr.getCSVParser();
         CSVRecord coldest = coldestHourInFile(parser);
@@ -129,9 +130,9 @@ public class ColdestWeather {
     public static void main(String[] args){
         ColdestWeather cw = new ColdestWeather();
         //cw.testColdestHourInFile();
-        //cw.testFileWithColdestTemperature();
+        cw.testFileWithColdestTemperature();
         //cw.testLowestHumidityInFile();
-        cw.testLowestHumidityInManyFiles();
+        //cw.testLowestHumidityInManyFiles();
     }
 }
 
