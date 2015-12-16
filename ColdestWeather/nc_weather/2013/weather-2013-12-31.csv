@@ -18,8 +18,3 @@ TimeEST,TemperatureF,Dew PointF,Humidity,Sea Level PressureIn,VisibilityMPH,Wind
 4:51 PM,45.0,21.9,40,30.27,10.0,West,3.5,-,N/A,,Mostly Cloudy,270,2013-12-31 21:51:00
 5:51 PM,44.1,21.9,42,30.27,10.0,Calm,Calm,-,N/A,,Scattered Clouds,0,2013-12-31 22:51:00
 6:51 PM,39.9,24.1,53,30.32,10.0,Calm,Calm,-,N/A,,Scattered Clouds,0,2013-12-31 23:51:00
-7:51 PM,37.9,24.1,57,30.34,10.0,SW,5.8,-,N/A,,Mostly Cloudy,220,2014-01-01 00:51:00
-8:51 PM,36.0,26.1,67,30.35,10.0,Calm,Calm,-,N/A,,Mostly Cloudy,0,2014-01-01 01:51:00
-9:51 PM,36.0,25.0,64,30.36,10.0,Calm,Calm,-,N/A,,Mostly Cloudy,0,2014-01-01 02:51:00
-10:51 PM,34.0,25.0,70,30.36,10.0,Calm,Calm,-,N/A,,Mostly Cloudy,0,2014-01-01 03:51:00
-11:51 PM,33.1,25.0,72,30.36,10.0,Calm,Calm,-,N/A,,Mostly Cloudy,0,2014-01-01 04:51:00

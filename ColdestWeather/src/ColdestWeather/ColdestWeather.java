@@ -24,6 +24,7 @@ public class ColdestWeather {
     //Record with the coldest temperature    
     return coldestSoFar;
     }
+    
     public CSVRecord checkColdest(CSVRecord currentRow, CSVRecord coldestSoFar) {
         if ( coldestSoFar == null ) {
                 coldestSoFar = currentRow;
@@ -48,9 +49,21 @@ public class ColdestWeather {
             FileResource fr = new FileResource(file);
             //call coldestHourInFile to get the file with lowest temp
             CSVRecord currentRow = coldestHourInFile(fr.getCSVParser());
-            coldestSoFar = checkColdest(currentRow, coldestSoFar);
-            ColdestTempFile = file.getAbsolutePath();
+            if ( coldestSoFar == null ) {
+                coldestSoFar = currentRow;
+            }
+            else {
+                double currentTemp = Double.parseDouble(currentRow.get("TemperatureF"));
+                double coldestTemp = Double.parseDouble(coldestSoFar.get("TemperatureF"));
+                //Check if currentTemp < coldestTemp
+                if ( currentTemp < coldestTemp && currentTemp > -9000) {
+                    //Update coldesSoFar to currentRow
+                    coldestSoFar = currentRow;
+                    ColdestTempFile = file.getAbsolutePath();
+                }
         }
+            
+    }
         
     return ColdestTempFile;
     }
@@ -96,11 +109,23 @@ public class ColdestWeather {
         //Iterate over all the files
         for ( File file : dr.selectedFiles() ){
             FileResource fr = new FileResource(file);
-            //call coldestHourInFile to get the file with lowest temp
+            //call lowestHumidityInFile to get the file with lowest Humidity
             CSVRecord currentRow = lowestHumidityInFile(fr.getCSVParser());
-            lowestSoFar = checkLowestHumidity(currentRow, lowestSoFar);
-            lowestHumFile = file.getAbsolutePath();
+            if ( lowestSoFar == null ) {
+                lowestSoFar = currentRow;
+            }
+        else {
+            if ( !currentRow.get("Humidity").contains("N/A") ) {
+                int currentHumidity = Integer.parseInt(currentRow.get("Humidity"));
+                int lowestHumidity = Integer.parseInt(lowestSoFar.get("Humidity"));
+                if ( currentHumidity < lowestHumidity ) {
+                    lowestSoFar = currentRow;
+                    lowestHumFile = file.getAbsolutePath();
+                }
+            }
         }
+            
+    }
         
     return lowestHumFile;
     }
@@ -169,10 +194,10 @@ public class ColdestWeather {
     }
     public static void main(String[] args){
         ColdestWeather cw = new ColdestWeather();
-        //cw.testColdestHourInFile();
-        cw.testFileWithColdestTemperature();
+       //cw.testColdestHourInFile();
+        //cw.testFileWithColdestTemperature();
         //cw.testLowestHumidityInFile();
-        //cw.testLowestHumidityInManyFiles();
+        cw.testLowestHumidityInManyFiles();
         //cw.testaverageTemperatureInFile();
        //cw.testaverageTemperatureWithHighHumidityInFile();
     }
