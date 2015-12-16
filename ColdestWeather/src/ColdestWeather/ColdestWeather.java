@@ -57,7 +57,7 @@ public class ColdestWeather {
     public void testColdestHourInFile() {
         FileResource fr = new FileResource();
         CSVRecord coldest = coldestHourInFile(fr.getCSVParser());
-        System.out.println("Coldest temperature was: " + coldest.get("TemperatureF") + " at " + coldest.get("TimeEST"));
+        System.out.println("Coldest temperature was: " + coldest.get("TemperatureF") + " at " + coldest.get("DateUTC"));
     }
     public void testFileWithColdestTemperature() {
         String ColdestTempFile = fileWithColdestTemperature();
@@ -79,7 +79,7 @@ public class ColdestWeather {
                 lowestSoFar = currentRow;
             }
         else {
-            if ( currentRow.get("Humidity") != "N/A" ) {
+            if ( !currentRow.get("Humidity").contains("N/A") ) {
                 int currentHumidity = Integer.parseInt(currentRow.get("Humidity"));
                 int lowestHumidity = Integer.parseInt(lowestSoFar.get("Humidity"));
                 if ( currentHumidity < lowestHumidity ) {
@@ -114,6 +114,46 @@ public class ColdestWeather {
     //Record with the coldest temperature    
     return lowestSoFar;
     }
+    public double averageTemperatureInFile(CSVParser parser) {
+        double averageTemp = 0;
+        int numDays = 0;
+        for (CSVRecord currentRow : parser) {
+            double currentTemp = Double.parseDouble(currentRow.get("TemperatureF"));
+            averageTemp += currentTemp;
+            numDays += 1;
+        }
+    return averageTemp/numDays;
+    }
+    public double averageTemperatureWithHighHumidityInFile(CSVParser parser, int humidity) {
+        double averageTemp = 0;
+        int numDays = 0;
+        for (CSVRecord currentRow : parser) {
+            if ( currentRow.get("Humidity") != "N/A" ) {
+                int currentHumidity = Integer.parseInt(currentRow.get("Humidity"));
+                if ( currentHumidity >= humidity ) {
+                    double currentTemp = Double.parseDouble(currentRow.get("TemperatureF"));
+                    averageTemp += currentTemp;
+                    numDays += 1;
+                }
+            }
+        }
+        if ( numDays == 0 ) {
+            System.out.println("No temperatures with that humidity");
+        }
+    return averageTemp/numDays;
+    }
+    public void testaverageTemperatureWithHighHumidityInFile() {
+        FileResource fr = new FileResource();
+        CSVParser parser = fr.getCSVParser();
+        int humidity = 80;
+        System.out.println("Average Temp when high Humidity is " + averageTemperatureWithHighHumidityInFile(parser, humidity));
+    }
+    public void testaverageTemperatureInFile() {
+        FileResource fr = new FileResource();
+        CSVParser parser = fr.getCSVParser();
+        System.out.println("Average temperature in file is " + averageTemperatureInFile(parser));
+    }
+    
     public void testLowestHumidityInManyFiles() {
         String lowestHumidityFile = lowestHumidityInManyFiles();
         FileResource fr = new FileResource(lowestHumidityFile);
@@ -133,6 +173,8 @@ public class ColdestWeather {
         cw.testFileWithColdestTemperature();
         //cw.testLowestHumidityInFile();
         //cw.testLowestHumidityInManyFiles();
+        //cw.testaverageTemperatureInFile();
+       //cw.testaverageTemperatureWithHighHumidityInFile();
     }
 }
 
