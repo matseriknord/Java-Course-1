@@ -13,6 +13,18 @@ import org.apache.commons.csv.*;
  * @author matnod
  */
 public class BabyNames {
+    public void WhatIsNameInYear(int year, int newYear, String name, String gender) {
+        int rank = getRank(year, name, gender);
+        String genderText = "";
+        String newName = getName(newYear, rank, gender);
+        if ( gender.equals("M") ) {
+            genderText = "he";
+        }
+        else {
+            genderText = "she";
+        }
+        System.out.println( name + " born in " + String.valueOf(year) + " would be " + newName + " if " + genderText + " was born in " + String.valueOf(newYear) );
+    }
     public String getName(int year, int rank, String gender) {
         //Method takes a year, a rank and a gender gender ("F", "M")
         //and returns the name corresponding to the rank. If name not
@@ -24,7 +36,6 @@ public class BabyNames {
         String filename = ""; //File name for the year
         //find and open the file for the expected year.
         filename = "yob" + String.valueOf(year)+".csv";
-        System.out.println(filename);
         FileResource fr = new FileResource("data/" + filename);
         for ( CSVRecord rec : fr.getCSVParser(false) ) {
             if ( current_rank == -1 ) {
@@ -49,7 +60,6 @@ public class BabyNames {
         String filename = ""; //File name for the year
         //find and open the file for the expected year
         filename = "yob" + String.valueOf(year)+".csv";
-        System.out.println(filename);
         FileResource fr = new FileResource("data/" + filename);
         for ( CSVRecord rec : fr.getCSVParser(false) ) {
             if ( current_rank == -1 ) {
@@ -93,6 +103,13 @@ public class BabyNames {
     System.out.println("Unique boys names: " + UniqueBoysNames );
     
     }
+    public void testWhatIsNameInYear() {
+        String name = "Isabella";
+        int Year = 2012;
+        int newYear = 1976;
+        String gender = "F";
+        WhatIsNameInYear(Year, newYear, name, gender);
+    }
     public static void testBabyNames() {
         //FileResource fr = new FileResource("data/example-small.csv");
         FileResource fr = new FileResource("data/yob2014.csv");
@@ -119,6 +136,7 @@ public class BabyNames {
         BabyNames bm = new BabyNames();
         //testBabyNames();
         //bm.testRank();
-        bm.testName();
+        //bm.testName();
+        bm.testWhatIsNameInYear();
     }
 }
