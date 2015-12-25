@@ -25,9 +25,11 @@ public class BabyNames {
         filename = "yob" + String.valueOf(year)+".csv";
         FileResource fr = new FileResource("data/" + filename);
         for (CSVRecord rec : fr.getCSVParser(false) ) {
+            //when name is reached all higher ranked names have been calculated.
             if ( rec.get(0).equals(name) &&  rec.get(1).equals(gender) ) {
                 break;
             }
+            //if gender and not name then calaculate total births
             if ( rec.get(1).equals(gender) && rec.get(0) != name ) {
                 total_births += Integer.parseInt(rec.get(2));
             }
@@ -78,19 +80,18 @@ public class BabyNames {
             filename = file.getName().substring(3, 7);
             year = Integer.parseInt(filename);
             current_rank = getRank(year, name, gender);
-            if ( current_rank != -1 && max_rank != -1 ) {
-                if ( current_rank < max_rank ) {
-                    year_highest = year;
-                }
-               
+            System.out.println("Name: " + name + " is ranked " + current_rank + " in " + String.valueOf(year) );
+            //first run
+            if ( current_rank != -1 && max_rank == -1 ) {
+                year_highest = year;
+                max_rank = current_rank;
             }
-            else {
-                if ( current_rank != -1 ) {
-                    max_rank = current_rank;
-                    year_highest = year;
-                }
-                
+            //if name is ranked in the file and ranking higher than previous ranking
+            if ( current_rank != -1 && current_rank < max_rank ) {
+                 max_rank = current_rank;
+                 year_highest = year;
             }
+            
         }
         return year_highest;
     }
@@ -187,53 +188,53 @@ public class BabyNames {
     
     }
     public void testgetTotalBirthsRankedHigher(){
-        int Year = 2012;
-        String name = "Ethan";
+        int Year = 1990;
+        String name = "Drew";
         String gender = "M";
         int total_births = 0;
         total_births = getTotalBirthsRankedHigher(Year, name, gender);
         System.out.println("Total births for names ranked higer than " + name + ": " + String.valueOf(total_births));
     }
     public void testgetAverageRank() {
-        String name = "Jacob";
+        String name = "Robert";
         String gender = "M";
         double average_rank = getAverageRank(name, gender);
         DecimalFormat df = new DecimalFormat("#.00000");
         System.out.println("Name: " + name + " Average rank: " + df.format(average_rank) + " Gender: " + gender);
     }
     public void testyearOfHighestRank() {
-        String name = "Mason";
+        String name = "Mich";
         int Year = 0;
         String gender = "M";
         Year = yearOfHighestRank(name, gender);
         System.out.println("Name: " + name + " Highest rank year: " + String.valueOf(Year) + " Gender: " + gender);
     }
     public void testWhatIsNameInYear() {
-        String name = "Isabella";
-        int Year = 2012;
-        int newYear = 1976;
-        String gender = "F";
+        String name = "Owen";
+        int Year = 1974;
+        int newYear = 2014;
+        String gender = "M";
         WhatIsNameInYear(Year, newYear, name, gender);
         
     }
     public static void testBabyNames() {
         //FileResource fr = new FileResource("data/example-small.csv");
-        FileResource fr = new FileResource("data/yob2014.csv");
+        FileResource fr = new FileResource("data/yob1905.csv");
         BabyNames bm = new BabyNames();
         bm.totalBirths(fr);
     }
     public void testName() {
-        int Rank = 5382;
-        int year = 2012;
+        int Rank = 450;
+        int year = 1982;
         String name = "";
-        String gender = "F";
+        String gender = "M";
         name = getName(year, Rank, gender);
         System.out.println("Name: " + name + " Year: " + String.valueOf(year) + " Gender: " + gender + " Rank: " + String.valueOf(Rank) );
     }
     public void testRank() {
         int Rank = -1;
-        int year = 2012;
-        String name = "oewrteyddft";
+        int year = 1960;
+        String name = "Emily";
         String gender = "F";
         Rank = getRank(year, name, gender);
         System.out.println("Name: " + name + " Year: " + String.valueOf(year) + " Gender: " + gender + " Rank: " + String.valueOf(Rank) );
